@@ -1,15 +1,14 @@
+import Navbar from "../components/Navbar";
+
 export default function Dashboard() {
-  const token = localStorage.getItem("token");
-
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>NUTRIKI🪴</h2>
+    <div>
+      <Navbar />
 
-      {token ? (
-        <p>ur logged in 🎉</p>
-      ) : (
-        <p>No token found. Please login.</p>
-      )}
+      <div style={{ padding: "20px" }}>
+        <h2>🌻today's overview for you </h2>
+        <p>welcome to your dashboard 💕</p>
+      </div>
     </div>
   );
 }
