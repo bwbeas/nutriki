@@ -19,6 +19,7 @@ export default function Water() {
   const [counter, setCounter] = useState(1);
 
   const [todayWater, setTodayWater] = useState(0);
+  const [history, setHistory] = useState([]);
 
   const percentage = (todayWater / 20) * 100;
   const loadTodayWater = async () => {
@@ -36,12 +37,30 @@ export default function Water() {
   }
 
 };
+
+const loadHistory = async () => {
+
+  try {
+
+    const res = await API.get("/water/history");
+
+    setHistory(res.data);
+
+  } catch (error) {
+
+    console.error(error);
+
+  }
+
+};
+
 useEffect(() => {
 
   loadTodayWater();
 
-}, []);
+  loadHistory();
 
+}, []);
 
 
   return (
@@ -73,7 +92,7 @@ useEffect(() => {
         </h3>
 
         <p>
-          you drank {todayWater} glasses of water today! 💙
+          you drank {todayWater} glasses of water today!💙 well done👏
         </p>
 
         <Button
@@ -92,9 +111,51 @@ useEffect(() => {
 
         <h2>daily hydration history:</h2>
 
-        <p>
-          no logs yet, come back tomorrow to check! this updates daily🥤
-        </p>
+{
+  history.length === 0 ? (
+
+    <p>no logs yet, come back tomorrow to check! this updates daily🥤</p>
+
+  ) : (
+
+    history.map((entry) => {
+
+      const date = new Date(entry.log_date);
+
+      const formattedDate =
+        date.toLocaleDateString(
+          "en-GB",
+          {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          }
+        );
+
+      return (
+
+        <div
+          key={entry.id}
+          style={{
+            background: "#fff",
+            padding: "15px",
+            borderRadius: "15px",
+            marginBottom: "12px",
+            boxShadow:
+              "0 2px 8px rgba(0,0,0,0.05)",
+          }}
+        >
+
+          💧 you drank {entry.glasses} glasses of water on {formattedDate}.
+
+        </div>
+
+      );
+
+    })
+
+  )
+}
 
       </div>
 
@@ -172,6 +233,7 @@ useEffect(() => {
   });
 
   await loadTodayWater();
+  await loadHistory();
 
   setCounter(1);
 
