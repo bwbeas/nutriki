@@ -1,20 +1,24 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.auth import router as auth_router
 from app.db.database import Base, engine
+
 from app.models.user import User
+from app.models.meal import Meal
+
+from app.api.auth import router as auth_router
+from app.api.meals import router as meals_router
+from app.models.water import WaterLog
+from app.api.water import router as water_router
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Nutriki API")
 
-#  CORS FIX
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "http://127.0.0.1:5173"
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -22,8 +26,9 @@ app.add_middleware(
 )
 
 app.include_router(auth_router)
-
+app.include_router(meals_router)
+app.include_router(water_router)
 
 @app.get("/")
 def home():
-    return {"message": "Welcome to Nutriki 🌱"}
+    return {"message": "Welcome to Nutriki"}

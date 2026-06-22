@@ -1,17 +1,19 @@
+
 import { useState } from "react";
 import API from "../api";
 import { useNavigate, Link } from "react-router-dom";
+import { TextField, MenuItem } from "@mui/material";
 
 export default function Register() {
   const [form, setForm] = useState({
-    nickname: "",
-    email: "",
-    password: "",
-    age: "",
-    height_cm: "",
-    weight_kg: "",
-    activity_level: "Lightly Active"
-  });
+  nickname: "",
+  email: "",
+  password: "",
+  age: "",
+  height_cm: "",
+  weight_kg: "",
+  activity_level: "Sedentary",
+});
 
   const navigate = useNavigate();
 
@@ -25,8 +27,8 @@ export default function Register() {
       alert(res.data.message);
       navigate("/");
     } catch (err) {
-      alert(err.response?.data?.detail || "Error");
-    }
+  alert(JSON.stringify(err.response.data));
+}
   };
 
   return (
@@ -36,7 +38,12 @@ export default function Register() {
       <input name="nickname" placeholder="Nickname" onChange={handleChange} />
       <br />
 
-      <input name="email" placeholder="Email" onChange={handleChange} />
+      <input
+  type="email"
+  name="email"
+  placeholder="Email"
+  onChange={handleChange}
+/>
       <br />
 
       <input
@@ -55,6 +62,21 @@ export default function Register() {
 
       <input name="weight_kg" placeholder="Weight (kg)" onChange={handleChange} />
       <br />
+     
+      <TextField
+  select
+  label="activity level"
+  name="activity_level"
+  value={form.activity_level}
+  onChange={handleChange}
+  fullWidth
+  margin="normal"
+>
+  <MenuItem value="Sedentary">Sedentary</MenuItem>
+  <MenuItem value="Lightly Active">Lightly Active</MenuItem>
+  <MenuItem value="Moderately Active">Moderately Active</MenuItem>
+  <MenuItem value="Very Active">Very Active</MenuItem>
+</TextField>
 
       <button onClick={handleRegister}>start my journey 🌱</button>
 

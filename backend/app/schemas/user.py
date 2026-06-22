@@ -14,10 +14,11 @@ class UserRegister(BaseModel):
     weight_kg: float = Field(gt=0)
 
     activity_level: Literal[
-        "Sedentary",
-        "Moderately Active",
-        "Very Active"
-    ]
+    "Sedentary",
+    "Lightly Active",
+    "Moderately Active",
+    "Very Active"
+]
 
 class UserLogin(BaseModel):
     email: EmailStr
