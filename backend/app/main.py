@@ -5,11 +5,13 @@ from app.db.database import Base, engine
 
 from app.models.user import User
 from app.models.meal import Meal
+from app.models.water import WaterLog
+from app.models.mood import MoodLog
 
 from app.api.auth import router as auth_router
 from app.api.meals import router as meals_router
-from app.models.water import WaterLog
 from app.api.water import router as water_router
+from app.api.mood import router as mood_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -28,6 +30,7 @@ app.add_middleware(
 app.include_router(auth_router)
 app.include_router(meals_router)
 app.include_router(water_router)
+app.include_router(mood_router)
 
 @app.get("/")
 def home():
