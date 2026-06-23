@@ -2,6 +2,8 @@
 import Navbar from "../components/Navbar";
 import API from "../api";
 import { useState, useEffect } from "react";
+import { PickerDay }
+from "@mui/x-date-pickers/PickerDay";
 
 import {
   Button,
@@ -40,8 +42,16 @@ else {
   phase = "🌙LUTEAL PHASE🌙";
 }
 
-const nextPeriod =
+let nextPeriod =
   periodStart.add(28, "day");
+
+if (
+  today.diff(periodStart, "day") > 28
+) {
+
+  nextPeriod = today;
+
+}
 
 const loadCycle = async () => {
 
@@ -114,6 +124,74 @@ const saveCycle = async (
 
 };
 
+const periodDates = [];
+
+for (let i = 0; i < 5; i++) {
+
+  periodDates.push(
+    periodStart.add(i, "day")
+  );
+
+}
+
+const ovulationDate =
+  periodStart.add(14, "day");
+
+  const predictedDates = [];
+
+for (let i = 0; i < 5; i++) {
+
+  predictedDates.push(
+    nextPeriod.add(i, "day")
+  );
+
+}
+
+const CustomDay = (props) => {
+
+  const { day, ...other } = props;
+
+  const isPeriodDay =
+    periodDates.some(date =>
+      date.isSame(day, "day")
+    );
+
+  const isPredictedDay =
+    predictedDates.some(date =>
+      date.isSame(day, "day")
+    );
+
+  const isOvulationDay =
+    ovulationDate.isSame(day, "day");
+
+  return (
+
+    <PickerDay
+      {...other}
+      day={day}
+      sx={{
+
+        ...(isPeriodDay && {
+          backgroundColor: "#fc036f",
+          color: "white"
+        }),
+
+        ...(isPredictedDay && {
+          backgroundColor: "#ff8cbe",
+          color: "black"
+        }),
+
+        ...(isOvulationDay && {
+          backgroundColor: "#33aff2",
+          color: "white"
+        })
+
+      }}
+    />
+
+  );
+
+};
 
   return (
     <>
@@ -125,8 +203,8 @@ const saveCycle = async (
           margin: "40px auto"
         }}
       >
-
-        <h2>🌸your cycle companion🩸</h2>
+<div style={{ maxWidth: "900px", margin: "40px auto" }}>
+<h2>🌸your cycle companion🩸</h2>
 
         <p>
           💌every body has its own rhythm.
@@ -168,6 +246,10 @@ const saveCycle = async (
             label="No"
           />
         </RadioGroup>
+  
+</div>
+
+        
 
         {
           hysterectomy === "Yes" && (
@@ -211,22 +293,92 @@ const saveCycle = async (
         </h3>
 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-  <DateCalendar
-    value={periodStart}
-    onChange={(newValue) => {
+ <DateCalendar
+  value={periodStart}
+  onChange={(newValue) => {
 
-  if (!newValue) return;
+    if (!newValue) return;
 
-  setPeriodStart(newValue);
+    setPeriodStart(newValue);
 
-  saveCycle(
-    hysterectomy,
-    newValue
-  );
+    saveCycle(
+      hysterectomy,
+      newValue
+    );
 
-}}
-    disableFuture
-  />
+  }}
+  slots={{
+    day: CustomDay
+  }}
+/>
+
+<div
+  style={{
+    display: "flex",
+    gap: "15px",
+    marginTop: "15px",
+    flexWrap: "wrap"
+  }}
+>
+
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      gap: "8px"
+    }}
+  >
+    <div
+      style={{
+        width: "16px",
+        height: "16px",
+        borderRadius: "50%",
+        backgroundColor: "#fc036f"
+      }}
+    />
+    <span>last/current period🩸</span>
+  </div>
+
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      gap: "8px"
+    }}
+  >
+    <div
+      style={{
+        width: "16px",
+        height: "16px",
+        borderRadius: "50%",
+        backgroundColor: "#ff8cbe"
+      }}
+    />
+    <span>predicted period⏰</span>
+  </div>
+
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      gap: "8px"
+    }}
+  >
+    <div
+      style={{
+        width: "16px",
+        height: "16px",
+        borderRadius: "50%",
+        backgroundColor: "#33aff2"
+      }}
+    />
+    <span>ovulation start🌺</span>
+  </div>
+
+</div>
+
+
+
 </LocalizationProvider>
 
       </Paper>
@@ -239,12 +391,12 @@ const saveCycle = async (
       >
 
         <h2>
-          🌸SUMMARY:
+          🌸summary:
         </h2>
 
-        <p>
-  today is day {cycleDay} of your cycle
-</p>
+        <h3>
+  TODAY IS DAY {cycleDay} OF YOUR CYCLE
+</h3>
 
 <p>
   current phase:
@@ -255,7 +407,7 @@ const saveCycle = async (
 <p>
   next predicted period:
   <br />
-  {nextPeriod.format("DD MMMM YYYY")}
+  <h3>{nextPeriod.format("DD MMMM YYYY")}</h3>
 </p>
 
 <p>
@@ -263,6 +415,77 @@ const saveCycle = async (
   <br />
   28 days
 </p>
+<hr />
+
+<h3>
+  🩸 last recorded period
+</h3>
+
+<div
+  style={{
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "8px",
+    marginBottom: "15px"
+  }}
+>
+
+  {periodDates.map((date) => (
+
+    <div
+      key={date.format()}
+      style={{
+        width: "35px",
+        height: "35px",
+        borderRadius: "50%",
+        background: "#e53935",
+        color: "white",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      }}
+    >
+      {date.date()}
+    </div>
+
+  ))}
+
+</div>
+
+<h3>
+  🌷 predicted next period
+</h3>
+
+<div
+  style={{
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "8px"
+  }}
+>
+
+  {predictedDates.map((date) => (
+
+    <div
+      key={date.format()}
+      style={{
+        width: "35px",
+        height: "35px",
+        borderRadius: "50%",
+        background: "#f8a5c2",
+        color: "white",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      }}
+    >
+      {date.date()}
+    </div>
+
+  ))}
+
+</div>
+
 
 <hr />
 
