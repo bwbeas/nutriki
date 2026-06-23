@@ -199,13 +199,40 @@ const [nickname, setNickname] =
 
 };
 
+
+const [dashboardData, setDashboardData] =
+  useState(null);
+
+  const loadDashboard = async () => {
+
+  try {
+
+    const res =
+      await API.get("/dashboard/");
+
+    setDashboardData(
+      res.data
+    );
+
+  }
+
+  catch(error){
+
+    console.error(error);
+
+  }
+
+};
 useEffect(() => {
 
   loadPlant();
 
   loadUser();
 
+  loadDashboard();
+
 }, []);
+
 
 return (
 
@@ -260,6 +287,50 @@ return (
   let's take care of ourselves today!!
 </p>
 
+{
+  dashboardData?.food_reminder && (
+
+    <Paper
+      sx={{
+        p: 3,
+        mt: 2,
+        mb: 3,
+        borderRadius: 4,
+        background: "#fff4f4"
+      }}
+    >
+
+      <h3>
+        🍱 gentle check-in
+      </h3>
+
+      <p>
+
+        {nickname},
+
+        please try to eat something if
+        you haven't already.
+
+        we haven't seen a food log
+        for a while and we hope
+        you're doing okay. 🌷
+
+      </p>
+
+      <p>
+
+        whatever you're going through,
+        take things one step at a time. 💗💗💗
+
+      </p>
+
+    </Paper>
+
+  )
+}
+
+
+
           <Paper
             sx={{
               padding: 3,
@@ -278,6 +349,46 @@ return (
 
           </Paper>
 
+          {
+  dashboardData?.cycle && (
+
+    <Paper
+      sx={{
+        p: 3,
+        mb: 3,
+        borderRadius: 4
+      }}
+    >
+
+      <h2>
+        {dashboardData.cycle.phase}
+      </h2>
+
+      <p>
+        🪻today is day{" "}
+        {dashboardData.cycle.cycle_day}
+        {" "}of your cycle!
+      </p>
+
+      <p>
+        {dashboardData.cycle.phase_message}
+      </p>
+
+      <hr />
+
+      <h4>
+        🌷gentle suggestions for you:
+      </h4>
+
+      <p>
+        {dashboardData.cycle.phase_food}
+      </p>
+
+    </Paper>
+
+  )
+}
+
           <div
             style={{
               background: "#fff",
@@ -290,7 +401,7 @@ return (
           >
 
             <h2>
-              🪴 {plant.plant_name} 💝
+              🪴watch your {plant.plant_name} grow💞
             </h2>
 
             <img
@@ -326,6 +437,109 @@ return (
             </p>
 
           </div>
+
+          {
+  dashboardData?.last_mood && (
+
+    <Paper
+      sx={{
+        p: 3,
+        mt: 3,
+        borderRadius: 4
+      }}
+    >
+
+      <h3>
+        🥹🌻a little note for you:
+      </h3>
+
+      <h1>
+        {dashboardData?.last_mood}
+      </h1>
+
+      <p>
+        {dashboardData?.mood_message}
+      </p>
+
+      <small>
+
+        based on your latest mood log
+
+      </small>
+
+    </Paper>
+    
+
+  )
+  
+}
+<Paper
+  sx={{
+    p: 3,
+    mt: 3,
+    borderRadius: 4
+  }}
+>
+
+  <h3>
+    🍱😋your last meal:
+  </h3>
+
+  <h2>
+    {dashboardData?.last_food}
+  </h2>
+
+  <p>
+    nom nom.... did you enjoy it?
+    remember to nourish yourself today.
+    every meal is a small act of self-care.🥙🌷
+  </p>
+
+</Paper>
+<Paper
+  sx={{
+    p: 3,
+    mt: 3,
+    borderRadius: 4
+  }}
+>
+
+  <h3>
+    💧 hydration check-in:
+  </h3>
+
+  <h2>
+    {dashboardData?.water_glasses}
+    {" "}
+    glasses of water logged today
+  </h2>
+
+  {
+    dashboardData?.water_glasses === 0 ? (
+
+      <p>
+
+        🌷😔you haven't logged any water today.
+
+        please remember to stay hydrated.
+        even a small glass of water is a lovely
+        act of self-care.
+
+      </p>
+
+    ) : (
+
+      <p>
+
+        💙keep taking care of yourself today.
+        your body appreciates every sip.🚰💧
+
+      </p>
+
+    )
+  }
+
+</Paper>
 
         </>
 

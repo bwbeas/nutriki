@@ -18,6 +18,7 @@ from app.api.cycle import router as cycle_router
 from app.api.plant import (
     router as plant_router
 )
+from app.api.dashboard import router as dashboard_router
 
 
 Base.metadata.create_all(bind=engine)
@@ -42,6 +43,10 @@ app.include_router(cycle_router)
 app.include_router(
     plant_router
 )
+app.include_router(
+    dashboard_router
+)
+
 
 @app.get("/")
 def home():
