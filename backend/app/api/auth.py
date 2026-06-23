@@ -5,6 +5,7 @@ from app.schemas.user import UserRegister, UserLogin
 from app.db.dependencies import get_db
 from app.models.user import User
 from app.core.security import hash_password
+from app.core.auth import get_current_user
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
@@ -56,4 +57,23 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
     return {
         "access_token": token,
         "token_type": "bearer"
+    }
+
+@router.get("/me")
+def get_me(
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user)
+):
+
+    user = (
+        db.query(User)
+        .filter(
+            User.id ==
+            current_user["user_id"]
+        )
+        .first()
+    )
+
+    return {
+        "nickname": user.nickname
     }

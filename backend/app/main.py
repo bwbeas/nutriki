@@ -8,12 +8,16 @@ from app.models.meal import Meal
 from app.models.water import WaterLog
 from app.models.mood import MoodLog
 from app.models.cycle import Cycle
+from app.models.plant import Plant
 
 from app.api.auth import router as auth_router
 from app.api.meals import router as meals_router
 from app.api.water import router as water_router
 from app.api.mood import router as mood_router
 from app.api.cycle import router as cycle_router
+from app.api.plant import (
+    router as plant_router
+)
 
 
 Base.metadata.create_all(bind=engine)
@@ -35,6 +39,9 @@ app.include_router(meals_router)
 app.include_router(water_router)
 app.include_router(mood_router)
 app.include_router(cycle_router)
+app.include_router(
+    plant_router
+)
 
 @app.get("/")
 def home():
