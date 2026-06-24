@@ -13,6 +13,7 @@ from app.models.plant import Plant
 from app.schemas.plant import PlantCreate
 
 from app.core.auth import get_current_user
+from app.models.meal import Meal
 
 
 router = APIRouter(
@@ -81,5 +82,28 @@ def get_plant(
         .first()
 
     )
+    if not plant:
+       return None
 
-    return plant
+    first_meal = (
+        db.query(Meal)
+        .filter(
+        Meal.user_id ==
+        current_user["user_id"]
+        )
+        .order_by(
+        Meal.created_at.asc()
+        )
+        .first()
+    ) 
+    
+    return {
+       "id": plant.id,
+       "plant_name": plant.plant_name,
+       "created_at": plant.created_at,
+
+       "first_meal_date":
+         first_meal.created_at
+         if first_meal
+         else None
+    }

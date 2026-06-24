@@ -77,21 +77,38 @@ let plantImage = seed;
 let stage = "Seed";
 
 if (plant) {
+    const growthStartDate =
 
-const createdDate =
-  new Date(plant.created_at);
+      plant.first_meal_date
+       ? new Date(
+          plant.first_meal_date
+         )
+       : new Date(
+          plant.created_at
+         );
 
-ageDays = Math.floor(
+    /*console.log(
+      "FIRST MEAL:",
+      plant.first_meal_date
+    );
 
-  (
-    new Date() - createdDate
-  )
+    console.log(
+     "GROWTH START:",
+      growthStartDate
+    );
 
-  /
+    console.log(
+      "NOW:",
+      new Date()
+    );*/
 
-  (1000 * 60 * 60 * 24)
+    ageDays = Math.floor(
+      (
+         new Date() -
+         growthStartDate
+      ) / (1000 * 60 * 60 * 24) +1
+    );
 
-);
 
 if (ageDays >= 90) {
 
