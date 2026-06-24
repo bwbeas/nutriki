@@ -35,13 +35,13 @@ export default function Register() {
     <div style={{ padding: "20px" }}>
       <h2>we're glad to have you here 💓</h2>
 
-      <input name="nickname" placeholder="Nickname" onChange={handleChange} />
+      <input name="nickname" placeholder="nickname (3-10 characters)" onChange={handleChange} />
       <br />
 
       <input
   type="email"
   name="email"
-  placeholder="Email"
+  placeholder="email"
   onChange={handleChange}
 />
       <br />
@@ -49,18 +49,18 @@ export default function Register() {
       <input
         name="password"
         type="password"
-        placeholder="Password"
+        placeholder="password (min 8 char, 1 letter & num)"
         onChange={handleChange}
       />
       <br />
 
-      <input name="age" placeholder="Age" onChange={handleChange} />
+      <input name="age" placeholder="age (18-40)" onChange={handleChange} />
       <br />
 
-      <input name="height_cm" placeholder="Height (cm)" onChange={handleChange} />
+      <input name="height_cm" placeholder="height (cm)" onChange={handleChange} />
       <br />
 
-      <input name="weight_kg" placeholder="Weight (kg)" onChange={handleChange} />
+      <input name="weight_kg" placeholder="weight (kg)" onChange={handleChange} />
       <br />
      
       <TextField
@@ -72,10 +72,10 @@ export default function Register() {
   fullWidth
   margin="normal"
 >
-  <MenuItem value="Sedentary">Sedentary</MenuItem>
-  <MenuItem value="Lightly Active">Lightly Active</MenuItem>
-  <MenuItem value="Moderately Active">Moderately Active</MenuItem>
-  <MenuItem value="Very Active">Very Active</MenuItem>
+  <MenuItem value="Sedentary">sedentary</MenuItem>
+  <MenuItem value="Lightly Active">lightly active</MenuItem>
+  <MenuItem value="Moderately Active">moderately active</MenuItem>
+  <MenuItem value="Very Active">very active</MenuItem>
 </TextField>
 
       <button onClick={handleRegister}>start my journey 🌱</button>

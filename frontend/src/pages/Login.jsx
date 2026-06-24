@@ -29,13 +29,13 @@ export default function Login() {
     <div style={{ padding: "20px" }}>
       <h2>welcome back to nutriki🌿</h2>
 
-      <input name="email" placeholder="Email" onChange={handleChange} />
+      <input name="email" placeholder="ur email" onChange={handleChange} />
       <br />
 
       <input
         name="password"
         type="password"
-        placeholder="Password"
+        placeholder="password"
         onChange={handleChange}
       />
       <br />
