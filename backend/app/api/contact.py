@@ -1,74 +1,60 @@
-from fastapi import APIRouter
-
-from app.schemas.contact import ContactMessage
-
-import smtplib
-import os
-
-from email.message import EmailMessage
-
-from dotenv import load_dotenv
-
-load_dotenv()
-
-EMAIL_ADDRESS = os.getenv(
-  "EMAIL_ADDRESS"
+from fastapi import (
+    APIRouter,
+    Depends
 )
 
-EMAIL_PASSWORD = os.getenv(
-  "EMAIL_PASSWORD"
-)
+from sqlalchemy.orm import Session
+
+from app.db.dependencies import get_db
+
+from app.schemas.contact import ContactMessage as ContactSchema
+
+from app.models.contact import ContactMessage
+
 
 router = APIRouter(
-  prefix="/contact",
-  tags=["Contact"]
+    prefix="/contact",
+    tags=["Contact"]
 )
 
+
 @router.post("/")
-def send_message(data: ContactMessage):
+def send_message(
+    data: ContactSchema,
+    db: Session = Depends(get_db)
+):
 
- try:
+    new_message = ContactMessage(
 
-  email = EmailMessage()
+        nickname=data.nickname,
 
-  email["Subject"] = "New Nutriki Message 🌷"
+        email=data.email,
 
-  email["From"] = EMAIL_ADDRESS
+        message=data.message
 
-  email["To"] = EMAIL_ADDRESS
-  email.set_content(
-
-    f"""
-    Nickname:
-    {data.nickname}
-
-    Email:
-    {data.email}
-
-    Message:
-    {data.message}
-    """
-
-  )
-
-  with smtplib.SMTP_SSL(
-    "smtp.gmail.com",
-    465
-  ) as smtp:
-
-    smtp.login(
-        EMAIL_ADDRESS,
-        EMAIL_PASSWORD
     )
 
-    smtp.send_message(email)
+    db.add(new_message)
 
-  return {
-    "message":
-    "sent successfully"
-  }
- except Exception as e:
+    db.commit()
 
-        return {
-            "error": str(e)
-        }
+    return {
+        "message":
+        "saved successfully"
+    }
+@router.get("/")
+def get_messages(
+    db: Session = Depends(get_db)
+):
+
+    return (
+
+        db.query(ContactMessage)
+
+        .order_by(
+            ContactMessage.created_at.desc()
+        )
+
+        .all()
+
+    )

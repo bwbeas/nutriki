@@ -21,7 +21,7 @@ from app.api.plant import (
 from app.api.dashboard import router as dashboard_router
 from app.api import analytics
 from app.api import contact
-
+from app.models.contact import ContactMessage
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Nutriki API")
