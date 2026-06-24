@@ -20,7 +20,7 @@ from app.api.plant import (
 )
 from app.api.dashboard import router as dashboard_router
 from app.api import analytics
-
+from app.api import contact
 
 Base.metadata.create_all(bind=engine)
 
@@ -50,7 +50,9 @@ app.include_router(
 app.include_router(
     analytics.router
 )
-
+app.include_router(
+    contact.router
+)
 
 @app.get("/")
 def home():

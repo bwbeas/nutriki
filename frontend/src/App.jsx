@@ -9,12 +9,22 @@ import Water from "./pages/Water";
 import Cycle from "./pages/Cycle";
 import Mood from "./pages/Mood";
 import Analytics from "./pages/Analytics";
+import Home from "./pages/Home";
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route path="/" element={<Home />} />
+
+<Route
+  path="/login"
+  element={<Login />}
+/>
+
+<Route
+  path="/register"
+  element={<Register />}
+/>
 
       <Route
         path="/dashboard"

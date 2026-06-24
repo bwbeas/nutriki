@@ -81,7 +81,7 @@ export default function Register() {
       <button onClick={handleRegister}>start my journey 🌱</button>
 
       <p>
-        already have an account? <Link to="/">login</Link>
+        already have an account? <Link to="/Login">login</Link>
       </p>
     </div>
   );
