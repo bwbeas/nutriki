@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import "../pages/theme.css";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -9,12 +10,12 @@ export default function Navbar() {
   };
 
   return (
-    <nav style={styles.nav}>
-      <div style={styles.left}>
-        <h3 style={{ margin: 0 }}>🪴 Nutriki</h3>
+    <nav className="nk-navbar">
+      <div className="nk-navbar-left">
+        <h3 className="nk-navbar-brand">🪴 Nutriki</h3>
       </div>
 
-      <div style={styles.links}>
+      <div className="nk-navbar-links">
         <Link to="/dashboard">Home</Link>
         <Link to="/analytics">Analytics</Link>
         <Link to="/food">Food Log</Link>
@@ -23,29 +24,9 @@ export default function Navbar() {
         <Link to="/mood">Mood</Link>
       </div>
 
-      <button onClick={logout} style={styles.logout}>
+      <button onClick={logout} className="nk-navbar-logout">
         Logout
       </button>
     </nav>
   );
 }
-
-const styles = {
-  nav: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "12px 20px",
-    background: "#f7f5f2",
-    borderBottom: "1px solid #e5e5e5",
-    fontFamily: "sans-serif",
-  },
-  links: {
-    display: "flex",
-    gap: "15px",
-  },
-  logout: {
-    padding: "6px 12px",
-    cursor: "pointer",
-  },
-};

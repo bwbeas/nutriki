@@ -4,6 +4,7 @@ import { FaLinkedin } from "react-icons/fa";
 import { FaInstagram, FaRegHeart } from 'react-icons/fa'; 
 import { useState } from "react";
 import API from "../api";
+import "./theme.css";
 
 export default function Home() {
 
@@ -58,21 +59,28 @@ const [success, setSuccess] =
   return (
 
     <div
+      className="nk-page-fade nk-home-bg"
       style={{
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        background: "#fff9fc",
         padding: "20px"
       }}
     >
 
+      <span style={{ fontSize: "2.6rem", marginBottom: "-10px" }}>🌷🪴🌼</span>
+
       <h1
         style={{
-          fontSize: "4rem"
+          fontSize: "4rem",
+          fontFamily: "'Fraunces', Georgia, serif",
+          color: "#5c4a42",
+          fontWeight: 500,
+          margin: "10px 0 6px 0"
         }}
+        className="nk-home-title"
       >
         nutriki 🌷
       </h1>
@@ -80,7 +88,9 @@ const [success, setSuccess] =
       <p
         style={{
           textAlign: "center",
-          maxWidth: "500px"
+          maxWidth: "500px",
+          color: "#8a7468",
+          fontSize: "1.05rem"
         }}
       >
         a gentle companion for your
@@ -96,10 +106,12 @@ const [success, setSuccess] =
         onClick={() =>
           navigate("/login")
         }
+        sx={{ mt: 1 }}
       >
         get started
       </Button>
       <Paper
+  className="nk-card-cream nk-home-card"
   sx={{
     p: 3,
     mt: 5,
@@ -108,12 +120,14 @@ const [success, setSuccess] =
   }}
 >
 
-  <h3>
+  <h3 style={{ textAlign: "center" }}>
   💗reach out to the creator for feedback, issues or just a hi?💗 
   </h3>
+<div style={{ display: "flex", gap: "16px", justifyContent: "center", margin: "8px 0 18px 0" }}>
 <a
   href="https://www.linkedin.com/in/beas-jana/"
   target="_blank"
+  style={{ color: "#e25b96" }}
 >
   <FaLinkedin
     size={25}
@@ -122,11 +136,13 @@ const [success, setSuccess] =
 <a
   href="https://www.instagram.com/nakaharasgloves"
   target="_blank"
+  style={{ color: "#e25b96" }}
 >
   <FaInstagram
     size={25}
   />
 </a>
+</div>
 
 
 <TextField
@@ -138,6 +154,7 @@ const [success, setSuccess] =
       e.target.value
     )
   }
+  sx={{ mb: 2 }}
 />
 <TextField
   fullWidth
@@ -148,6 +165,7 @@ const [success, setSuccess] =
       e.target.value
     )
   }
+  sx={{ mb: 2 }}
 />
 
 <TextField
@@ -161,20 +179,26 @@ const [success, setSuccess] =
       e.target.value
     )
   }
+  sx={{ mb: 2 }}
 />
 
+<div style={{ textAlign: "center" }}>
 <Button
   variant="contained"
   onClick={sendMessage}
 >
   Send🌷
 </Button>
+</div>
 {
   success && (
 
     <p
       style={{
-        marginTop: "10px"
+        marginTop: "14px",
+        textAlign: "center",
+        color: "#e25b96",
+        fontWeight: 600
       }}
     >
       {success}
@@ -183,8 +207,9 @@ const [success, setSuccess] =
   )
 }
 
+<hr className="nk-stitch-divider" style={{ margin: "20px 0 10px 0" }} />
 
-  <p>
+  <p style={{ textAlign: "center", color: "#8a7468", fontSize: "0.9rem" }}>
     made with love by
     beas🐝 
   </p>
