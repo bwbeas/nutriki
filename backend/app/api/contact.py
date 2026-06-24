@@ -27,6 +27,7 @@ router = APIRouter(
 @router.post("/")
 def send_message(data: ContactMessage):
 
+ try:
 
   email = EmailMessage()
 
@@ -66,4 +67,8 @@ def send_message(data: ContactMessage):
     "message":
     "sent successfully"
   }
+ except Exception as e:
 
+        return {
+            "error": str(e)
+        }
