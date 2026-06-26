@@ -158,13 +158,10 @@ def get_dashboard(
     )
     cycle_data = None
     if cycle and not cycle.hysterectomy:
+        today = datetime.now().date()
+        period_start = cycle.period_start.date()
         cycle_day = (
-
-                 datetime.now(
-                   cycle.period_start.tzinfo
-                 ) 
-                 - cycle.period_start
-
+            today - period_start
         ).days + 1
 
         if cycle_day <= 5:

@@ -83,6 +83,8 @@ export default function Register() {
       <p>
         already have an account? <Link to="/Login">login</Link>
       </p>
+      <h4>p.s. login/register might be a little slow because the backend is hosted on a free tier. if the button isn't working please wait 30 seconds. sorry 😭</h4>
+ 
     </div>
   );
 }

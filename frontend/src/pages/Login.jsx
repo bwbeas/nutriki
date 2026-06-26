@@ -45,6 +45,7 @@ export default function Login() {
       <p>
         don't have an account? <Link to="/register">register</Link>
       </p>
+      <h4>p.s. login/register might be a little slow because the backend is hosted on a free tier. if the button isn't working please wait 30 seconds. sorry 😭</h4>
     </div>
   );
 }

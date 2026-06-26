@@ -26,8 +26,18 @@ export default function Cycle() {
   const today = dayjs();
 
 const cycleDay =
-  today.diff(periodStart, "day") + 1;
+  dayjs()
+    .startOf("day")
+    .diff(
+      periodStart.startOf("day"),
+      "day"
+    ) + 1;
+    
 let phase = "";
+
+console.log(periodStart.format());
+console.log(today.format());
+console.log(today.diff(periodStart, "day"));
 
 if (cycleDay <= 5) {
   phase = "🩸MENSTRUAL PHASE🩸";
@@ -108,7 +118,7 @@ const saveCycle = async (
         newHysterectomy === "Yes",
 
       period_start:
-        newPeriodStart.toISOString()
+newPeriodStart.startOf("day").toISOString()
 
     });
 
